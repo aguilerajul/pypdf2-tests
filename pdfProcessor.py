@@ -31,12 +31,12 @@ def AddWaterMark(pdfPath, waterMarkPdfPath=None, finalName='waterMarked'):
     template = PyPDF2.PdfFileReader(open(pdfPath, 'rb'))
     watermark = PyPDF2.PdfFileReader(open(
         './assets/pdf/wtm.pdf' if waterMarkPdfPath is None else waterMarkPdfPath, 'rb'))
-    final_file = PyPDF2.PdfFileWriter()
+    writer = PyPDF2.PdfFileWriter()
 
     for pageNumber in range(template.getNumPages()):
         page = template.getPage(pageNumber)
         page.mergePage(watermark.getPage(0))
-        final_file.addPage(page)
+        writer.addPage(page)
 
         with open(f'{finalName}.pdf', 'wb') as pdfFile:
-            final_file.write(pdfFile)
+            writer.write(pdfFile)
